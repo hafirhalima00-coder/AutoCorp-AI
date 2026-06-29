@@ -1,0 +1,15 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# TypeScript source
+*.ts text diff=typescript
+*.tsx text diff=typescript
+
+# Markdown
+*.md text diff=markdown
+
+# JSON
+*.json text diff=json
+
+# Lock files - binary
+package-lock.json binary
