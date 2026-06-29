@@ -248,3 +248,7 @@ docker run -p 3000:3000 autocorp-ai
 ## License
 
 MIT
+
+---
+
+> **build by Halima Hafir**
