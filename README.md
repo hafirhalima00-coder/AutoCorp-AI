@@ -251,4 +251,4 @@ MIT
 
 ---
 
-> **build by Halima Hafir**
+> **built by Halima Hafir**
