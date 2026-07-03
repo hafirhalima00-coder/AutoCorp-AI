@@ -4,9 +4,7 @@
 
 Built with Next.js 15, TypeScript, Tailwind CSS, SQLite, React Flow, and Recharts.
 
-<p align="center">
-  <video src="https://raw.githubusercontent.com/hafirhalima00-coder/AutoCorp-AI/master/public/demo.mp4" controls width="100%" style="max-width: 720px; border-radius: 12px;"></video>
-</p>
+<video src="https://github.com/hafirhalima00-coder/AutoCorp-AI/raw/master/public/demo.mp4" controls width="100%" style="max-width: 720px; border-radius: 12px;"></video>
 
 ---
 
