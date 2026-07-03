@@ -4,6 +4,10 @@
 
 Built with Next.js 15, TypeScript, Tailwind CSS, SQLite, React Flow, and Recharts.
 
+<p align="center">
+  <video src="public/demo.mp4" controls width="100%" style="max-width: 720px; border-radius: 12px;"></video>
+</p>
+
 ---
 
 ## Architecture
