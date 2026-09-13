@@ -15,8 +15,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/",
-    "test": "vitest run",
-    "postinstall": "node -e \"const fs=require('fs'),p=require('path');const d=p.join(process.cwd(),'data');if(!fs.existsSync(d))fs.mkdirSync(d,{recursive:true})\""
+    "test": "vitest run"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -33,7 +32,6 @@
     "@radix-ui/react-tabs": "^1.1.15",
     "@radix-ui/react-toast": "^1.2.17",
     "@radix-ui/react-tooltip": "^1.2.10",
-    "better-sqlite3": "^12.11.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -48,6 +46,9 @@
     "tailwind-merge": "^3.6.0",
     "tw-animate-css": "^1.4.0"
   },
+  "optionalDependencies": {
+    "better-sqlite3": "^12.11.1"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
@@ -60,8 +61,5 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.9"
-  },
-  "allowScripts": {
-    "better-sqlite3@12.11.1": true
   }
 }
