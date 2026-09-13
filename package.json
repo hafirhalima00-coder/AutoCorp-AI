@@ -15,7 +15,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/",
-    "test": "vitest run"
+    "test": "vitest run",
+    "postinstall": "node -e \"const fs=require('fs'),p=require('path');const d=p.join(process.cwd(),'data');if(!fs.existsSync(d))fs.mkdirSync(d,{recursive:true})\""
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

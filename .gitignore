@@ -36,8 +36,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# runtime data
-/data
+# runtime generated files
 *.log
 *.pid
 
@@ -45,4 +44,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# sqlite database files (keep directory for .gitkeep)
+data/*.db
+data/*.db-shm
+data/*.db-wal

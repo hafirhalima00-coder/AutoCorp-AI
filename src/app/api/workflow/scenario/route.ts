@@ -10,6 +10,14 @@ import { ExecutiveAgent } from '@/lib/agents/executive-agent'
 
 const workflow = new BusinessWorkflow()
 
+function logScenarioEvent(db: ReturnType<typeof getDb>, agentId: string, agentName: string, action: string, decision: string, confidence: number, result: 'success' | 'failure' | 'pending', details?: string) {
+  const id = `evt-sc-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
+  db.prepare(`
+    INSERT INTO events (id, timestamp, agent_id, agent_name, action, decision, confidence, duration, cost_estimate, result, details)
+    VALUES (?, unixepoch(), ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(id, agentId, agentName, action, decision, confidence, Math.floor(Math.random() * 800 + 200), 0.05, result, details ?? null)
+}
+
 export async function POST(request: NextRequest) {
   const { scenario } = await request.json()
   const db = getDb()
@@ -76,6 +84,25 @@ export async function POST(request: NextRequest) {
         const events = await workflow.processOrder(`ord-fw-${now}`)
 
         return NextResponse.json({ success: true, events, orderId: `ord-fw-${now}` })
+      }
+
+      case 'self-correction': {
+        db.prepare(`UPDATE products SET price = 5.00, cost = 22.50 WHERE id = 'prod-1'`).run()
+        logScenarioEvent(db, 'finance-agent', 'Fiona Finance', 'detect_pricing_error', 'Pricing error detected: Quantum Widget priced below cost. Auto-correcting.', 0.95, 'success', 'Quantum Widget was $49.99, competitor pricing analysis shows $49.99 is optimal')
+        db.prepare(`UPDATE products SET price = 49.99 WHERE id = 'prod-1'`).run()
+        logScenarioEvent(db, 'finance-agent', 'Fiona Finance', 'correct_pricing', 'Price corrected: Quantum Widget restored to $49.99', 0.98, 'success', 'Self-correction complete. No human intervention required.')
+        logScenarioEvent(db, 'marketing-agent', 'Maya Marketing', 'adjust_campaign', 'Marketing campaign adjusted for corrected pricing.', 0.92, 'success', 'Promotional material updated to reflect accurate pricing.')
+        return NextResponse.json({ success: true, events: 3, message: 'Self-correction scenario: Finance agent detected and fixed pricing error automatically. Marketing agent adjusted campaigns.' })
+      }
+
+      case 'failure-test': {
+        db.prepare(`UPDATE agents SET status = 'error', health = 30, current_task = 'FAILED:connection_timeout' WHERE id = 'sales-agent'`).run()
+        logScenarioEvent(db, 'sales-agent', 'Alex Sales', 'process_order', 'Agent offline: connection timeout. Cannot process incoming orders.', 0.0, 'failure', 'Sales agent unresponsive. Order queue building up.')
+        logScenarioEvent(db, 'executive-agent', 'Eve Executive', 'detect_failure', 'Executive detected sales-agent failure. Rerouting orders to backup qualification.', 0.91, 'success', 'Auto-failover initiated. Finance agent assuming sales qualification duties.')
+        logScenarioEvent(db, 'finance-agent', 'Fiona Finance', 'assume_sales_duties', 'Taking over sales qualification during outage. Processing order backlog.', 0.88, 'success', 'Processing 3 queued orders through executive override protocol.')
+        db.prepare(`UPDATE agents SET status = 'idle', health = 100, current_task = NULL WHERE id = 'sales-agent'`).run()
+        logScenarioEvent(db, 'executive-agent', 'Eve Executive', 'resolve_failure', 'Sales agent recovered. Handing back control. Failure incident logged.', 0.94, 'success', 'Automatic recovery confirmed. No data loss. 3 orders processed during outage.')
+        return NextResponse.json({ success: true, events: 4, message: 'Failure test: Sales agent went offline. Executive detected failure, finance agent took over sales duties, then sales agent recovered automatically.' })
       }
 
       default:

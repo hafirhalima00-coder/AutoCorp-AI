@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Play, Zap, RefreshCw, DollarSign, Package } from 'lucide-react'
+import { Play, Zap, RefreshCw, DollarSign, Package, Shield, AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 
 const SCENARIOS = [
@@ -39,6 +39,22 @@ const SCENARIOS = [
     icon: RefreshCw,
     badge: 'Demo',
     color: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' as string,
+  },
+  {
+    id: 'self-correction',
+    label: 'Self-Correction',
+    description: 'Finance agent auto-detects and fixes pricing error',
+    icon: Shield,
+    badge: 'Autonomy',
+    color: 'bg-violet-500/10 text-violet-500 border-violet-500/20' as string,
+  },
+  {
+    id: 'failure-test',
+    label: 'Failure Test',
+    description: 'Sales agent goes offline, others compensate and escalate',
+    icon: AlertTriangle,
+    badge: 'Resilience',
+    color: 'bg-orange-500/10 text-orange-500 border-orange-500/20' as string,
   },
 ]
 
